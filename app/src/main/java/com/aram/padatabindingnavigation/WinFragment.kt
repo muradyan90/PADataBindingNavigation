@@ -18,18 +18,20 @@ import com.aram.padatabindingnavigation.databinding.FragmentWinBinding
 class WinFragment : Fragment() {
 
     private lateinit var binding: FragmentWinBinding
-    private var playerInfo = ""
+    private var player = Player()
     private var winningNumber = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_win,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_win, container, false)
         val args = WinFragmentArgs.fromBundle(arguments!!)
-        playerInfo = args.playerInfo
+        player = args.player
         winningNumber = args.winningNumber
 
+        binding.player = player
+        binding.winningNumber = winningNumber
 
         setHasOptionsMenu(true)
 
@@ -40,32 +42,43 @@ class WinFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
 
-            playAgainBtn.setOnClickListener{
-                findNavController().navigate(WinFragmentDirections.actionWinFragmentToGameFragment(""))
+            playAgainBtn.setOnClickListener {
+                findNavController().navigate(
+                    WinFragmentDirections.actionWinFragmentToGameFragment(
+                        player!!
+                    )
+                )
             }
+            shareBtn.setOnClickListener {
 
-            congratTv.text = String.format(resources.getString(R.string.congrat),playerInfo)
-            winningNumberTv.text = String.format(resources.getString(R.string.winning_number),winningNumber.toString())
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.apply {
+                    type = ("text/plain")
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "${player?.name} ${player?.lastName} - $winningNumber"
+                    )
+                }
 
-            shareBtn.setOnClickListener{
-
-                val shareIntent =Intent(Intent.ACTION_SEND)
-                 shareIntent.apply {
-                     type = ("text/plain")
-                 putExtra(Intent.EXTRA_TEXT,"$playerInfo - $winningNumber")}
-
-                if(shareIntent.resolveActivity(activity!!.packageManager) != null)
-                    startActivity(shareIntent) else Toast.makeText(context,"No such activity on device",Toast.LENGTH_SHORT).show()
+                if (shareIntent.resolveActivity(activity!!.packageManager) != null)
+                    startActivity(shareIntent) else Toast.makeText(
+                    context,
+                    "No such activity on device",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.options_menu,menu)
+        inflater.inflate(R.menu.options_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return   NavigationUI.onNavDestinationSelected(item,findNavController()) || super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 }

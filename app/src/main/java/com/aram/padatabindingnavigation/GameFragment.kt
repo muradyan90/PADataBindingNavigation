@@ -20,7 +20,7 @@ class GameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
     private var number = 0
-    private var playerInfo = ""
+    private var player = Player()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class GameFragment : Fragment() {
 
 
        val args = GameFragmentArgs.fromBundle(arguments!!)
-       playerInfo = args.playerInfo
+       player = args.player
 
         return binding.root
     }
@@ -63,15 +63,15 @@ class GameFragment : Fragment() {
 
     private fun FragmentGameBinding.guessingNumber() {
         guessBtn.setOnClickListener {
-              number = 3//Random().nextInt(100)
+              number = Random().nextInt(100)
 
             if (number.toString() == numberEt.text.toString().trim()) {
                 //findNavController().navigate(R.id.action_gameFragment_to_winFragment)
-                findNavController().navigate(GameFragmentDirections.actionGameFragmentToWinFragment(number,playerInfo))
+                findNavController().navigate(GameFragmentDirections.actionGameFragmentToWinFragment(number,player))
 
             } else {
                // findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
-                findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment(playerInfo))
+                findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment(player))
             }
         }
     }

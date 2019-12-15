@@ -17,7 +17,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var name: String
     private lateinit var lastName: String
-    private lateinit var player: Player
+    private var player = Player()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +51,7 @@ class RegistrationFragment : Fragment() {
                     return@setOnClickListener
                 }
                  player = Player(name, lastName)
-                 name = "$name $lastName"
-                findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToGameFragment(name))
+                findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToGameFragment(player))
 
             }
         }

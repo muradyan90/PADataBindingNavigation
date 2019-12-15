@@ -16,7 +16,7 @@ import com.aram.padatabindingnavigation.databinding.FragmentWinBinding
 class GameOverFragment : Fragment() {
 
     private lateinit var binding: FragmentGameOverBinding
-    private var playerInfo = ""
+    private var player = Player()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,8 +24,8 @@ class GameOverFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_game_over,container,false)
         val args = GameOverFragmentArgs.fromBundle(arguments!!)
-        playerInfo = args.playerInfo
-
+        player = args.player
+        binding.player = player
         setHasOptionsMenu(true)
 
         return binding.root
@@ -35,9 +35,8 @@ class GameOverFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             playAgainBtn.setOnClickListener{
-                findNavController().navigate(GameOverFragmentDirections.actionGameOverFragmentToGameFragment(""))
+                findNavController().navigate(GameOverFragmentDirections.actionGameOverFragmentToGameFragment(player!!))
             }
-            youLostTv.text = String.format(resources.getString(R.string.lose_text),playerInfo)
         }
     }
 
