@@ -16,4 +16,5 @@
     <string name="lose_text"> %1$s %2$s you lose</string>
     <string name="winning_number">Winning number is %1$s</string>
     <string name="congrat">CONGRATULATIONS !!! %1$s %2$s you win</string>
+    <string name="warning">"Number must be not less than 0 and not bigger than 100"</string>
 </resources>

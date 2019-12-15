@@ -65,6 +65,11 @@ class GameFragment : Fragment() {
         guessBtn.setOnClickListener {
               number = Random().nextInt(100)
 
+            if (numberEt.text.trim().toString().toInt() !in 0..100){
+                numberEt.error = getString(R.string.warning)
+                return@setOnClickListener
+            }
+
             if (number.toString() == numberEt.text.toString().trim()) {
                 //findNavController().navigate(R.id.action_gameFragment_to_winFragment)
                 findNavController().navigate(GameFragmentDirections.actionGameFragmentToWinFragment(number,player))
