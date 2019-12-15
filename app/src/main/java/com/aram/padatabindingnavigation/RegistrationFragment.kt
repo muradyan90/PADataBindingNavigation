@@ -52,7 +52,6 @@ class RegistrationFragment : Fragment() {
                 }
                  player = Player(name, lastName)
                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToGameFragment(player))
-
             }
         }
     }

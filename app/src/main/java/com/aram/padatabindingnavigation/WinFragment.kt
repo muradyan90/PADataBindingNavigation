@@ -26,9 +26,12 @@ class WinFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_win, container, false)
-        val args = WinFragmentArgs.fromBundle(arguments!!)
+        val bundle = arguments
+        if(bundle != null){
+        val args = WinFragmentArgs.fromBundle(bundle)
         player = args.player
         winningNumber = args.winningNumber
+        }
 
         binding.player = player
         binding.winningNumber = winningNumber
@@ -45,7 +48,7 @@ class WinFragment : Fragment() {
             playAgainBtn.setOnClickListener {
                 findNavController().navigate(
                     WinFragmentDirections.actionWinFragmentToGameFragment(
-                        player!!
+                        this@WinFragment.player
                     )
                 )
             }

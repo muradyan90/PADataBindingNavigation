@@ -22,10 +22,13 @@ class GameOverFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_game_over,container,false)
-        val args = GameOverFragmentArgs.fromBundle(arguments!!)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_over, container, false)
+        val bundle = arguments
+        if(bundle != null){
+        val args = GameOverFragmentArgs.fromBundle(bundle)
         player = args.player
         binding.player = player
+        }
         setHasOptionsMenu(true)
 
         return binding.root
@@ -34,18 +37,26 @@ class GameOverFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            playAgainBtn.setOnClickListener{
-                findNavController().navigate(GameOverFragmentDirections.actionGameOverFragmentToGameFragment(player!!))
+            playAgainBtn.setOnClickListener {
+
+                findNavController().navigate(
+                    GameOverFragmentDirections.actionGameOverFragmentToGameFragment(
+                        this@GameOverFragment.player
+                    )
+                )
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.options_menu,menu)
+        inflater.inflate(R.menu.options_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item,findNavController()) || super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 }
